@@ -11,7 +11,7 @@ wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_am
 sudo unzip terraform_0.12.24_linux_amd64.zip -d /usr/local/bin
 
 # Generate SSH keys for Terraform (No passphrase)
-ssh-keygen -t rsa -b 2048 -f ~/terraform/terraform -q -N ""
+ssh-keygen -t rsa 
 
 # Set proper permissions for the private key
-chmod 400 ~/terraform/terraform
+chmod 400 terraform
