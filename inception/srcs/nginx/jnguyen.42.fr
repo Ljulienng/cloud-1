@@ -1,0 +1,19 @@
+server {
+  listen 443 ssl;
+  ssl_protocols TLSv1.2 TLSv1.3;
+  ssl_certificate /etc/ssl/certs/inception.crt;
+  ssl_certificate_key /etc/ssl/private/inception.key;
+
+  server_name jnguyen.42.fr www.jnguyen.42.fr;
+  root /var/www/html;
+  index index.php index.html index.nginx-debian.html;
+
+  location / {
+	  try_files $uri $uri/ =404;
+	}
+
+  location ~ \.php$ {
+    include snippets/fastcgi-php.conf;
+    fastcgi_pass php:9000;
+  }
+}

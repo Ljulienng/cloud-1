@@ -1,0 +1,63 @@
+version: "3"
+services:
+  phpmyadmin:
+    build:
+      context: ./srcs/phpmyadmin
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    depends_on:
+      - mariadb
+    networks:
+      - back
+  nginx:
+    build: ./srcs/nginx
+    restart: always
+    ports:
+      - "443:443"
+      - "8000:8000"
+    networks:
+      - front
+    volumes:
+      - "wpfiles:/var/www/html"
+    depends_on:
+      - php
+  php:
+    build: ./srcs/php
+    restart: always
+    tty: true
+    env_file: .env
+    networks:
+      - front
+      - back
+    volumes:
+      - "wpfiles:/var/www/html"
+    depends_on:
+      - mariadb
+  mariadb:
+    build: ./srcs/mariadb
+    restart: always
+    tty: true
+    env_file: .env
+    networks:
+      - back
+    volumes:
+      - "dbfiles:/var/lib/mysql"
+networks:
+  front:
+  back:
+volumes:
+  wpfiles:
+    driver: local
+    driver_opts:
+      device: /home/ubuntu/data/wordpress
+      o: bind
+      type: none
+  dbfiles:
+    driver: local
+    driver_opts:
+      device: /home/ubuntu/data/mariadb
+      o: bind
+      type: none

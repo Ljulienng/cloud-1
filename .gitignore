@@ -1,0 +1,6 @@
+.env
+*.pem
+/terraform.tfvars
+/.terraform
+terraform
+terraform.pub
